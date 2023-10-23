@@ -11,3 +11,5 @@ Intermediate/advance usages of useState, useEffect, customHooks, re-usable compo
 Project idea from "Jonas Schmedtmann's The Ultimate React Course"
 
 needs www.omdbapi.com key in .env file -->apikey=omdbipi_key
+
+deploy--> https://filimci-demo.netlify.app/

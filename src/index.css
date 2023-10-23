@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply min-h-screen bg-slate-700 font-reem;
+}
+
+.turning-element {
+  transform: rotateY(180deg);
+}

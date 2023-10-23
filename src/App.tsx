@@ -26,7 +26,9 @@ function App() {
 
   const [showMovieDetails, setShowMovieDetails] = useState<boolean>(false);
 
-  const [watchedMovies, setWatchMovies] = useState<WatchedType[] | []>([]);
+  const [watchedMovies, setWatchMovies] = useState<WatchedType[] | []>(() =>
+    JSON.parse(localStorage.getItem("watchedmovies")!),
+  );
 
   //query actions.
   const { isLoading, movies, isError } = useMovies(query); //custom hooks
@@ -38,7 +40,7 @@ function App() {
   //selected movie actions.
   const { getMovie, selectedMovieError, selectedMovieLoading } = useMovie(); //custom hooks
   async function handleFetchMovie(imdbID: string) {
-    const isInList = watchedMovies.find((movie) => movie.imdbID === imdbID);
+    const isInList = watchedMovies?.find((movie) => movie.imdbID === imdbID);
     if (isInList) {
       setShowMovieDetails(true);
       setSelectedMovie(isInList);
@@ -50,7 +52,7 @@ function App() {
   }
   function handleAddWatched(movie: WatchedType) {
     //for double-check.
-    if (watchedMovies.find((item) => item.imdbID === movie.imdbID)) {
+    if (watchedMovies?.find((item) => item.imdbID === movie.imdbID)) {
       alert(selectedMovie?.Title + " allready in the list.");
       setShowSelectedMovie(false);
       return;
@@ -58,6 +60,17 @@ function App() {
     setWatchMovies((prev) => [...prev, movie]);
     setShowSelectedMovie(false);
   }
+
+  //localStorage actions
+  useEffect(
+    function () {
+      localStorage.setItem(
+        "watchedmovies",
+        JSON.stringify(watchedMovies || []),
+      );
+    },
+    [watchedMovies],
+  );
 
   //modal action.
   function handleCloseModal() {

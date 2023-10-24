@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { AnimatePresence } from "framer-motion";
 
 import { WatchedType } from "./helpers/types";
 import useMovie from "./components/movies/useMovie";
 import useMovies from "./components/movies/useMovies";
+import useLocal from "./components/movies/useLocal";
+import useModal from "./components/ui/useModal";
 
 import Main from "./components/layout/Main";
 import Movies from "./components/movies/Movies";
@@ -16,19 +18,25 @@ import Modal from "./components/ui/Modal";
 import SelectedMovie from "./components/movies/SelectedMovie";
 import MovieDetails from "./components/movies/MovieDetails";
 import Footer from "./components/layout/Footer";
-import useLocal from "./components/movies/useLocal";
 
 function App() {
   const [query, setQuery] = useState<string>("");
 
   const [selectedMovie, setSelectedMovie] = useState<WatchedType | null>(null);
 
-  const [showSelectedMovie, setShowSelectedMovie] = useState<boolean>(false);
-
-  const [showMovieDetails, setShowMovieDetails] = useState<boolean>(false);
-
   //localstorage action
   const { watchedMovies, setWatchMovies } = useLocal();
+
+  const {
+    handleCloseModal: closeMovieDetails,
+    showModal: showMovieDetails,
+    setShowModal: setShowMovieDetails,
+  } = useModal();
+  const {
+    handleCloseModal: closeSelectedMovie,
+    showModal: showSelectedMovie,
+    setShowModal: setShowSelectedMovie,
+  } = useModal();
 
   //query actions.
   const { isLoading, movies, isError } = useMovies(query); //custom hooks
@@ -60,29 +68,6 @@ function App() {
     setWatchMovies((prev) => [...prev, movie]);
     setShowSelectedMovie(false);
   }
-
-  //modal action.
-  function handleCloseModal() {
-    setShowSelectedMovie(false);
-    setShowMovieDetails(false);
-    setSelectedMovie(null);
-  }
-  useEffect(
-    function () {
-      if (!showMovieDetails && !showSelectedMovie) return;
-      const handleEscape = (event: KeyboardEvent) => {
-        if (event.key === "Escape") {
-          // console.log("-->Esc");
-          handleCloseModal();
-        }
-      };
-      document.addEventListener("keydown", handleEscape);
-      return () => {
-        document.removeEventListener("keydown", handleEscape);
-      };
-    },
-    [showMovieDetails, showSelectedMovie],
-  );
 
   //watched movies actions.
   function handleSelectDetails(imdbID: string) {
@@ -117,22 +102,22 @@ function App() {
       {/*createPortal actions */}
       <AnimatePresence>
         {showSelectedMovie && (
-          <Modal onClose={handleCloseModal}>
+          <Modal onClose={closeSelectedMovie}>
             <SelectedMovie
               isError={selectedMovieError}
               isLoading={selectedMovieLoading}
               movie={selectedMovie}
               onAddWatched={handleAddWatched}
-              onClose={handleCloseModal}
+              onClose={closeSelectedMovie}
             />
           </Modal>
         )}
       </AnimatePresence>
       <AnimatePresence>
         {showMovieDetails && (
-          <Modal onClose={handleCloseModal}>
+          <Modal onClose={closeMovieDetails}>
             <MovieDetails
-              onClose={handleCloseModal}
+              onClose={closeMovieDetails}
               onUpdate={handleUpdateMovie}
               onDelete={handleDeleteMovie}
               movie={selectedMovie}

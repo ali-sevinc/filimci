@@ -16,6 +16,7 @@ import Modal from "./components/ui/Modal";
 import SelectedMovie from "./components/movies/SelectedMovie";
 import MovieDetails from "./components/movies/MovieDetails";
 import Footer from "./components/layout/Footer";
+import useLocal from "./components/movies/useLocal";
 
 function App() {
   const [query, setQuery] = useState<string>("");
@@ -26,9 +27,8 @@ function App() {
 
   const [showMovieDetails, setShowMovieDetails] = useState<boolean>(false);
 
-  const [watchedMovies, setWatchMovies] = useState<WatchedType[] | []>(() =>
-    JSON.parse(localStorage.getItem("watchedmovies")!),
-  );
+  //localstorage action
+  const { watchedMovies, setWatchMovies } = useLocal();
 
   //query actions.
   const { isLoading, movies, isError } = useMovies(query); //custom hooks
@@ -60,17 +60,6 @@ function App() {
     setWatchMovies((prev) => [...prev, movie]);
     setShowSelectedMovie(false);
   }
-
-  //localStorage actions
-  useEffect(
-    function () {
-      localStorage.setItem(
-        "watchedmovies",
-        JSON.stringify(watchedMovies || []),
-      );
-    },
-    [watchedMovies],
-  );
 
   //modal action.
   function handleCloseModal() {

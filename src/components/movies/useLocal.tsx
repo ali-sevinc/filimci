@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { WatchedType } from "../../helpers/types";
 
 function useLocal() {
-  const [watchedMovies, setWatchMovies] = useState<WatchedType[] | []>(() =>
-    JSON.parse(localStorage.getItem("watchedmovies")!),
-  );
+  const [watchedMovies, setWatchMovies] = useState<WatchedType[] | []>(() => {
+    const local = localStorage.getItem("watchedmovies");
+    return local ? JSON.parse(local) : [];
+  });
 
   //localStorage actions
   useEffect(

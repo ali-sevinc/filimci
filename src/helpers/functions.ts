@@ -15,3 +15,10 @@ export function avgRuntime(arry: WatchedType[]) {
   const result = runtimes.reduce((acc, item) => acc + item, 0) / arry?.length;
   return result.toFixed(2);
 }
+
+export function smallTitle(title: string) {
+  if (title.length <= 45) {
+    return title;
+  }
+  return title.slice(0, 46) + "...";
+}

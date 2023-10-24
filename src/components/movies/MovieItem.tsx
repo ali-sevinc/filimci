@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 
 import { MovieType } from "../../helpers/types";
+import { smallTitle } from "../../helpers/functions";
 
 interface PropsType {
   movie: MovieType;
@@ -20,7 +21,7 @@ function MovieItem({ movie, onFetchMovie }: PropsType) {
     >
       <img src={movie.Poster} className="w-14" />
       <div className="">
-        <h2 className="text-xl">{movie.Title}</h2>
+        <h2 className="text-xl">{smallTitle(movie.Title)}</h2>
         <p>{movie.Year}</p>
       </div>
     </motion.li>

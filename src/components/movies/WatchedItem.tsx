@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 
 import { WatchedType } from "../../helpers/types";
+import { smallTitle } from "../../helpers/functions";
 
 interface PropsType {
   movie: WatchedType;
@@ -20,7 +21,7 @@ function WatchedItem({ movie, onShowMovie }: PropsType) {
     >
       <img src={movie?.Poster} className="w-14" />
       <div className="flex w-full flex-col">
-        <h2 className="text-xl">{movie?.Title}</h2>
+        <h2 className="text-xl">{smallTitle(movie?.Title)}</h2>
         <div className="flex justify-between">
           <p>⭐ {movie?.imdbRating}</p>
           <p>🌟 {movie?.userRating}</p>

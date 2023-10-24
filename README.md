@@ -1,6 +1,6 @@
 # Movie tracker demo project.
 
-Intermediate/advance usages of useState, useEffect, customHooks, re-usable components, event-listeners and more.
+Intermediate/advance usages of useState, useEffect, useRef, customHooks, re-usable components, event-listeners and more.
 
 ### Built with:
 

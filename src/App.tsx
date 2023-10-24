@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AnimatePresence } from "framer-motion";
 
@@ -32,8 +32,8 @@ function App() {
 
   //query actions.
   const { isLoading, movies, isError } = useMovies(query); //custom hooks
-  function handleQuery(event: ChangeEvent<HTMLInputElement>) {
-    setQuery(event.target.value);
+  function handleQuery(value: string) {
+    setQuery(value);
   }
   const moviesLength = movies?.length;
 

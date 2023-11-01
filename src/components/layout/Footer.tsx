@@ -1,8 +1,8 @@
 function Footer() {
   return (
-    <footer className="flex h-32  justify-between bg-slate-900 px-16 pt-4 text-slate-100">
+    <footer className="flex h-32  justify-between bg-slate-900 px-16 pt-4  text-slate-100 md:px-32 2xl:px-96">
       <h4>&copy; This is footer</h4>
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-2 ">
         <p className="border-b">Links</p>
         <div className="pl-1">
           <a href="https://github.com/shepherdali" target="_blank">

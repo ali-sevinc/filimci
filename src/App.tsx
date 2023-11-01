@@ -18,6 +18,7 @@ import Modal from "./components/ui/Modal";
 import SelectedMovie from "./components/movies/SelectedMovie";
 import MovieDetails from "./components/movies/MovieDetails";
 import Footer from "./components/layout/Footer";
+import Confirm from "./components/movies/Confirm";
 
 function App() {
   const [query, setQuery] = useState<string>("");
@@ -36,6 +37,11 @@ function App() {
     handleCloseModal: closeSelectedMovie,
     showModal: showSelectedMovie,
     setShowModal: setShowSelectedMovie,
+  } = useModal();
+  const {
+    handleCloseModal: closeConfirmModal,
+    showModal: showConfirmModal,
+    setShowModal: setShowConfirmModal,
   } = useModal();
 
   //query actions.
@@ -77,16 +83,21 @@ function App() {
     );
   }
 
-  function handleDeleteMovie(imdbID: string) {
-    const confirm = window.confirm(
-      "Are you sure? This actions cannot be undone.",
-    );
-
+  function handleConfirmation() {
+    setShowConfirmModal(true);
+    setShowMovieDetails(false);
+  }
+  function handleCancelConfirm() {
+    setShowConfirmModal(false);
+    setShowMovieDetails(true);
+  }
+  function handleDeleteMovie() {
     if (!confirm) return;
     setWatchMovies((movies) =>
-      movies.filter((movie) => movie.imdbID !== imdbID),
+      movies.filter((movie) => movie.imdbID !== selectedMovie?.imdbID),
     );
     setShowMovieDetails(false);
+    setShowConfirmModal(false);
     setSelectedMovie(null);
   }
   function handleUpdateMovie(data: WatchedType) {
@@ -100,6 +111,17 @@ function App() {
   return (
     <>
       {/*createPortal actions */}
+      <AnimatePresence>
+        {showConfirmModal && (
+          <Modal onClose={closeConfirmModal}>
+            <Confirm
+              title={selectedMovie?.Title || ""}
+              onCancel={handleCancelConfirm}
+              onConfirm={handleDeleteMovie}
+            />
+          </Modal>
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {showSelectedMovie && (
           <Modal onClose={closeSelectedMovie}>
@@ -119,7 +141,7 @@ function App() {
             <MovieDetails
               onClose={closeMovieDetails}
               onUpdate={handleUpdateMovie}
-              onDelete={handleDeleteMovie}
+              onDelete={handleConfirmation}
               movie={selectedMovie}
             />
           </Modal>

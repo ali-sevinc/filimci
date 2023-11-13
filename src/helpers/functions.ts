@@ -12,7 +12,10 @@ export function avgRuntime(arry: WatchedType[]) {
   const runtimes = arry.map((item) =>
     parseInt(item.Runtime.replace(" min", "")),
   );
-  const result = runtimes.reduce((acc, item) => acc + item, 0) / arry?.length;
+
+  const result =
+    runtimes.reduce((acc, item) => (isNaN(item) ? acc : acc + item), 0) /
+    arry?.length;
   return result.toFixed(2);
 }
 

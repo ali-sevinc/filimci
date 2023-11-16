@@ -8,7 +8,6 @@ Intermediate/advance usages of useState, useEffect, useRef, customHooks, re-usab
 - framer-motion
 - typescript
 
-Project idea from "Jonas Schmedtmann's The Ultimate React Course"
 
 needs www.omdbapi.com key in .env file -->apikey=omdbipi_key
 
